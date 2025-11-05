@@ -4,7 +4,7 @@ This is an academic poster template designed for [Typst](https://github.com/typs
 Supports both horizontal and vertical posters; can specify whatever dimensions you want.
 Still very much in development..
 
-![Example of a horizotal poster](./images/readme_vertical.png)
+![Example of a horizotal poster](./examples/example.jpg)
 
 # Todo
 [ ] - Footer content
