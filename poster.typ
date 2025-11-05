@@ -43,20 +43,20 @@
   // or Course Name, Date, Instructor.
   footerText: "Footer Text",
 
-  // Email IDs of the authors.
-  // footerEmailIds: "Email IDs (separated by commas)",
-
   // Color of heading lines
-  headingLineColor:  "#000000",
+  headingLineColor:  none,
 
   // Color of heading text
-  headingTextColor: "#000000",
+  headingTextColor: none,
 
   // Width of heading lines
   headingLineThickness: 2pt,
 
   // Lenth of heading lines
   headingLineLength: 100%,
+
+  // The numbering style of the headings
+  headingNumbering: none,
 
   // Background color of the header
   headerFillColor: none,
@@ -93,6 +93,7 @@
   // Body font and size
   bodyFont: "Gotham",
   bodyFontSize: 36pt,
+  bodyFontColor: black,
 
   // Title and authors' column size .
   titleColumnSize: 20in,
@@ -134,7 +135,6 @@
   // Footer's text font size .
   footerTextFontSize: 40pt,
 
-
   // The poster's content.
   body
 ) = {
@@ -142,7 +142,9 @@
   // Parse certain options in the proper format
   set text(font: bodyFont, size: bodyFontSize)
   numColumns = int(numColumns)
-  let headerLineThickness = if headerLineThickness == none { 2*headingLineThickness } else { headerLineThickness }
+  let headerLineThickness = if headerLineThickness == none { 2*headingLineThickness }
+  let headingLineColor = if headingLineColor == none { bodyFontColor } else {headingLineColor}
+  let headingTextColor = if headingTextColor == none { bodyFontColor } else {headingTextColor}
 
   let hs1 = if heading1Size == none { bodyFontSize * heading1Scale } else { heading1Size }
   let hs2 = if heading2Size == none { bodyFontSize * heading2Scale } else { heading2Size }
@@ -159,7 +161,7 @@
       #set text(size: footerTextFontSize)
       #block(
         fill: footerColor,
-        width: 100%,
+        width: 100% + lmargin + rmargin,
         inset: 20pt,
         radius: 10pt,
         [
@@ -225,15 +227,20 @@
     grid(columns: 1, ..members)
   }
 
-  // Configure headings
-  set heading(numbering: none)
-  // headings
+  // step heading from 0
+  counter(heading).step()
+
+  // custom headings
   show heading: it => {
     let lvl = it.level
     // =
     if lvl == 1 {
       set align(center)
       set text(size: hs1, weight: 400, fill: headingTextColor)
+      counter(heading).step()
+      if headingNumbering != none {
+        counter(heading).display(headingNumbering) + " "
+      }
       smallcaps(it.body)
       v(-hs1)
       line(
@@ -285,7 +292,7 @@
   v(headerBottomPad)
   move(dx: -10%)[
     #line(
-      length: 120%,
+      length: width + 10%,
       stroke: (
         paint: headingLineColor,
         thickness: headerLineThickness,

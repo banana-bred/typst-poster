@@ -1,41 +1,69 @@
-#import "../poster.typ": *
-
+#import "poster.typ": *
+#let color1=rgb("#C2CCF9")
+#let color2=rgb("#E85B3A")
 #show: poster.with(
-  size: "36x24",
-  title: "A typesetting system to untangle the scientific writing process",
-  authors: "A. Smith, B. Jones, C. Brown, D. Miller",
-  departments: "Department of Computer Science",
-  univ_logo: "./images/ncstate.png",
-  footer_text: "Conference on Typesetting Systems, 2000",
-  footer_url: "https://www.example.com/",
-  footer_email_ids: "abc@example.com",
-  footer_color: "ebcfb2",
-
-  // Modifying the defaults
+  width: 36in,
+  height: 24in,
+  title: lorem(8),
+  authors: (
+    ("A. Smith", 1, 2),
+    "B. Jones",
+    ("C. Brown", 3),
+    ("D. Miller", 1),
+  ),
+  affiliations: ("Affil1", "Affil2", "Affil3"),
+  leftHeader: [
+    #set align(left)
+    #move(dx:-3em)[#grid(
+      columns: (12em, 12em),
+      column-gutter: 4em,
+      align: center + horizon,
+      image( "./images/deer1.jpg", height: 8em),
+      image( "./images/deer2.jpg", height: 8em),
+    )
+  ]],
+  rightHeader: [
+    #set align(center + horizon)
+    #grid(columns: (8em), align: center+horizon, column-gutter: 4em)[
+      #move(dx:3em)[#rotate(-90deg, image("./images/raccoon.jpg", height: 8em))]
+  ]],
+  footerText: "Conference on Typesetting Systems, 2000",
+  footerTextFontSize: 22pt,
+  footerColor: color1,
   keywords: ("Typesetting", "Scientific Writing", "Typst"),
+  titleAuthorsGap: -18pt,
+  authorAffiliationGap: 38pt,
+  bodyFontSize: 24pt,
+  bmargin: 1cm,
+  headerFillColor: color1,
+  headingLineColor: color2,
+  headerFillHeight: 10.5em,
 )
 
 = #lorem(3)
-#lorem(100)
+#lorem(60)
 #figure(
-  image("../images/Women_operating_typesetting_machines.png", 
+  image("images/Monet.cliffWalkAtPourville.jpg",
         width: 50%),
   caption: [#lorem(10)]
 )
-#lorem(60)
+
++ #lorem(10)
++ #lorem(10)
++ #lorem(10)
+
 
 = #lorem(2)
 #lorem(30)
 
-+ #lorem(10)
-+ #lorem(10)
-+ #lorem(10)
 
 #lorem(50)
 
+#colbreak()
+
 #set align(center)
 #table(
-  columns:(auto, auto, auto), 
+  columns:(auto, auto, auto),
   inset:(10pt),
  [#lorem(4)], [#lorem(2)], [#lorem(2)],
  [#lorem(3)], [#lorem(2)], [$alpha$],
@@ -45,6 +73,7 @@
 )
 
 #set align(left)
+== #lorem(5)
 #lorem(80)
 $ mat(
   1, 2, ..., 8, 9, 10;
@@ -52,14 +81,7 @@ $ mat(
   dots.v, dots.v, dots.down, dots.v, dots.v, dots.v;
   10, 10, ..., 10, 10, 10;
 ) $
-== #lorem(5)
 
-#lorem(65)
-#figure(
-  image("../images/Standard_lettering.png", 
-        width: 100%),
-  caption: [#lorem(8)]
-)
 
 = #lorem(3)
 
@@ -68,25 +90,28 @@ $ mat(
   inset: 8pt,
   radius: 4pt,
   [
-    #lorem(80),
+    #lorem(110),
     - #lorem(10),
     - #lorem(10),
     - #lorem(10),
   ]
 )
+
+#colbreak()
+
 #lorem(75)
-```rust
-fn factorial(i: u64) -> u64 {
-    if i == 0 {
-        1
-    } else {
-        i * factorial(i - 1)
-    }
-}
+```Fortran
+pure elemental module function factorial(i) result(res)
+  use, intrinsic :: iso_fortran_env, only: dp => real64
+  implicit none
+  integer, intent(in) :: i
+  real(dp) :: res
+  res = gamma(real(i+1, kind = dp))
+end function factorial
 ```
 
 = #lorem(5)
-#lorem(100)
+#lorem(130)
 - #lorem(10)
   - #lorem(5)
   - #lorem(8)
@@ -95,18 +120,3 @@ fn factorial(i: u64) -> u64 {
   - #lorem(7)
 
 $ sum_(k=1)^n k = (n(n+1)) / 2 = (n^2 + n) / 2 $
-
-#block(
-  fill: luma(230),
-  inset: 8pt,
-  radius: 4pt,
-  [
-    #lorem(30),
-  ]
-)
-
-#figure(
-  image("../images/Rosetta_stone.png", 
-        width: 85%),
-  caption: [#lorem(30)]
-)
